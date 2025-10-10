@@ -8,11 +8,13 @@ import {
   Shield, 
   Settings, 
   Menu,
-  PawPrint
+  PawPrint,
+  LogOut
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/stores/uiStore';
+import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 
 const sidebarItems = [
@@ -26,6 +28,7 @@ const sidebarItems = [
 
 export const Sidebar = () => {
   const { sidebarCollapsed, toggleSidebar } = useUIStore();
+  const { signOut } = useAuth();
   const location = useLocation();
 
   const sidebarVariants = {
@@ -113,7 +116,7 @@ export const Sidebar = () => {
         </nav>
 
         {/* Footer */}
-        <div className="p-4 border-t border-border">
+        <div className="p-4 border-t border-border space-y-2">
           <Button
             variant="ghost"
             className={cn(
@@ -127,6 +130,22 @@ export const Sidebar = () => {
               variants={textVariants}
             >
               Settings
+            </motion.span>
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={signOut}
+            className={cn(
+              'w-full justify-start gap-3 h-12 text-muted-foreground hover:text-destructive',
+              sidebarCollapsed && 'justify-center'
+            )}
+          >
+            <LogOut className="w-5 h-5 flex-shrink-0" />
+            <motion.span
+              animate={sidebarCollapsed ? 'collapsed' : 'expanded'}
+              variants={textVariants}
+            >
+              Logout
             </motion.span>
           </Button>
         </div>
